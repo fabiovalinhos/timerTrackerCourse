@@ -10,7 +10,7 @@ App used for training to sign on Google, Facebook and email
 
 The Baas used for that app is Firebase
 
-![App's screeshot](images/screenshot1.png)
+<img src="images/screenshot1.png" alt="App's screeshot" width="150"/>
 
 
 
