@@ -16,6 +16,8 @@ class EmailSignInForm extends StatefulWidget {
 class _EmailSignInFormState extends State<EmailSignInForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
 
   String get _email => _emailController.text;
   String get _password => _passwordController.text;
@@ -32,8 +34,11 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
     } catch (e) {
       print(e.toString());
     }
+  }
 
-    print('${_emailController.text} e a senha: ${_passwordController.text}');
+  void _emailEditingComplete() {
+    print('email editing complete');
+    FocusScope.of(context).requestFocus(_passwordFocusNode);
   }
 
   void _toggleFormType() {
@@ -55,30 +60,20 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         ? 'Need an account? Register'
         : 'Have an account? Sign in';
 
+    bool submitEnable = _email.isNotEmpty && _password.isNotEmpty;
+
     return [
-      TextField(
-        decoration: InputDecoration(
-          labelText: 'Email',
-          hintText: 'text@text.com',
-        ),
-        controller: _emailController,
-      ),
+      _buildEmailTextField(),
       SizedBox(
         height: 8.0,
       ),
-      TextField(
-        decoration: InputDecoration(
-          labelText: 'Password',
-        ),
-        obscureText: true,
-        controller: _passwordController,
-      ),
+      _buildPasswordTextField(),
       SizedBox(
         height: 10.0,
       ),
       FormSubmitButton(
         text: primaryText,
-        onPressed: _submit,
+        onPressed: submitEnable ? _submit : null,
       ),
       SizedBox(
         height: 8.0,
@@ -88,6 +83,36 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         child: Text(secondaryText),
       )
     ];
+  }
+
+  TextField _buildPasswordTextField() {
+    return TextField(
+      decoration: InputDecoration(
+        labelText: 'Password',
+      ),
+      obscureText: true,
+      controller: _passwordController,
+      textInputAction: TextInputAction.done,
+      focusNode: _passwordFocusNode,
+      onChanged: (password) => _updateState(),
+      onEditingComplete: _submit,
+    );
+  }
+
+  TextField _buildEmailTextField() {
+    return TextField(
+      decoration: InputDecoration(
+        labelText: 'Email',
+        hintText: 'text@text.com',
+      ),
+      controller: _emailController,
+      autocorrect: false,
+      keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
+      focusNode: _emailFocusNode,
+      onChanged: (email) => _updateState(),
+      onEditingComplete: _emailEditingComplete,
+    );
   }
 
   @override
@@ -100,5 +125,9 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         children: _buildChildren(),
       ),
     );
+  }
+
+  void _updateState() {
+    setState(() {});
   }
 }
