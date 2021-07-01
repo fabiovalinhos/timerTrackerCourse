@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+// ignore: non_constant_identifier_names
 Future<bool> ShowAlertDialog(BuildContext context,
     {@required String title,
     @required String content,
