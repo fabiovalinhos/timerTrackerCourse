@@ -8,7 +8,9 @@ class SignInBloc {
   SignInBloc({@required this.auth});
   final AuthBase auth;
 
-  final StreamController<bool> _isLoadingController = StreamController<bool>();
+  final StreamController<bool> _isLoadingController =
+      StreamController<bool>.broadcast();
+
   Stream<bool> get isLoadingStream => _isLoadingController.stream;
 
   void dispose() {
