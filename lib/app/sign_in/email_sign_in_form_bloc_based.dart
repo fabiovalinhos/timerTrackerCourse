@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_tracker_flutter_course/app/sign_in/email_sign_in_bloc.dart';
-import 'package:timer_tracker_flutter_course/app/sign_in/validators.dart';
 import 'package:timer_tracker_flutter_course/common_widgets/form_submit_button.dart';
 import 'package:timer_tracker_flutter_course/common_widgets/show_exception_alert_dialog.dart';
 import 'package:timer_tracker_flutter_course/services/auth.dart';
