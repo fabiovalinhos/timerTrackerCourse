@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:timer_tracker_flutter_course/app/home/models/job.dart';
 import 'package:timer_tracker_flutter_course/common_widgets/show_alert_dialog.dart';
 import 'package:timer_tracker_flutter_course/services/auth.dart';
+import 'package:timer_tracker_flutter_course/services/database.dart';
 
 class JobsPage extends StatelessWidget {
   Future<void> _signOut(BuildContext context) async {
@@ -25,6 +27,14 @@ class JobsPage extends StatelessWidget {
     }
   }
 
+  Future<void> _createJob(BuildContext context) async {
+    final database = Provider.of<Database>(context, listen: false);
+    await database.createJob(Job(
+      name: 'Blogging',
+      ratePerHour: 15,
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +55,7 @@ class JobsPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: null,
+        onPressed: () => _createJob(context),
       ),
     );
   }
