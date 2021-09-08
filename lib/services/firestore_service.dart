@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class FirestoreService {
-  // Constructor privado
+  // Constructor privado, apenas será acessado por um objeto - singleton
   FirestoreService._();
   static final instance = FirestoreService._();
 

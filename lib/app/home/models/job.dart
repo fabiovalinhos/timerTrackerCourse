@@ -6,6 +6,7 @@ class Job {
 
   Job({@required this.name, @required this.ratePerHour});
 
+  // factory para mim é a mesma coisa que o static
   factory Job.fromMap(Map<String, dynamic> data) {
     if (data == null) {
       return null;
