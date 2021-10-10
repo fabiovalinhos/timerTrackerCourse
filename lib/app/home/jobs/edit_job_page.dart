@@ -6,32 +6,44 @@ import 'package:timer_tracker_flutter_course/common_widgets/show_alert_dialog.da
 import 'package:timer_tracker_flutter_course/common_widgets/show_exception_alert_dialog.dart';
 import 'package:timer_tracker_flutter_course/services/database.dart';
 
-class AddJobPage extends StatefulWidget {
-  const AddJobPage({Key key, @required this.database}) : super(key: key);
+class EditJobPage extends StatefulWidget {
+  const EditJobPage({Key key, @required this.database, this.job})
+      : super(key: key);
   final Database database;
+  final Job job;
 
-  static Future<void> show(BuildContext context) async {
+  static Future<void> show(BuildContext context, {Job job}) async {
     // Ele pegou pelo context o Provider do jobs_page
     final database = Provider.of<Database>(context, listen: false);
     await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => AddJobPage(
+          builder: (context) => EditJobPage(
             database: database,
+            job: job,
           ),
           fullscreenDialog: true,
         ));
   }
 
   @override
-  _AddJobPageState createState() => _AddJobPageState();
+  _EditJobPageState createState() => _EditJobPageState();
 }
 
-class _AddJobPageState extends State<AddJobPage> {
+class _EditJobPageState extends State<EditJobPage> {
   final _formkey = GlobalKey<FormState>();
 
   String _name;
   int _ratePerHour;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.job != null) {
+      _name = widget.job.name;
+      _ratePerHour = widget.job.ratePerHour;
+    }
+  }
 
   bool _validateAndSaveForm() {
     final form = _formkey.currentState;
@@ -78,7 +90,7 @@ class _AddJobPageState extends State<AddJobPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 2.0,
-        title: Text('New Job'),
+        title: Text(widget.job == null ? 'New Job' : 'Edit Job'),
         actions: <Widget>[
           TextButton(
             child: Text(
@@ -128,6 +140,7 @@ class _AddJobPageState extends State<AddJobPage> {
         decoration: InputDecoration(
           labelText: 'Job name',
         ),
+        initialValue: _name,
         onSaved: (value) => _name = value,
         validator: (value) => value.isNotEmpty ? null : 'Name can\'t be empty',
       ),
@@ -135,6 +148,7 @@ class _AddJobPageState extends State<AddJobPage> {
         decoration: InputDecoration(
           labelText: 'Rate per hour',
         ),
+        initialValue: _ratePerHour != null ? '$_ratePerHour' : null,
         keyboardType: TextInputType.numberWithOptions(
           signed: false,
           decimal: false,
