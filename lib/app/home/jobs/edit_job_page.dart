@@ -59,6 +59,9 @@ class _EditJobPageState extends State<EditJobPage> {
       try {
         final jobs = await widget.database.jobsStream().first;
         final allNames = jobs.map((job) => job.name).toList();
+        if (widget.job != null) {
+          allNames.remove(widget.job.name);
+        }
 
         if (allNames.contains(_name)) {
           ShowAlertDialog(
@@ -68,11 +71,14 @@ class _EditJobPageState extends State<EditJobPage> {
             defaultActionText: 'Ok',
           );
         } else {
+          final id =
+              widget.job?.id ?? FirestoreDatabase.documentIdFromCurrentDate();
           final job = Job(
+            id: id,
             name: _name,
             ratePerHour: _ratePerHour,
           );
-          await widget.database.createJob(job);
+          await widget.database.setJob(job);
           Navigator.of(context).pop();
         }
       } on FirebaseException catch (e) {
