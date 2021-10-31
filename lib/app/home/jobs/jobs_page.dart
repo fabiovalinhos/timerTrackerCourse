@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_tracker_flutter_course/app/home/jobs/edit_job_page.dart';
@@ -6,6 +7,7 @@ import 'package:timer_tracker_flutter_course/app/home/jobs/job_list_tile.dart';
 import 'package:timer_tracker_flutter_course/app/home/jobs/list_items_builder.dart';
 import 'package:timer_tracker_flutter_course/app/home/models/job.dart';
 import 'package:timer_tracker_flutter_course/common_widgets/show_alert_dialog.dart';
+import 'package:timer_tracker_flutter_course/common_widgets/show_exception_alert_dialog.dart';
 import 'package:timer_tracker_flutter_course/services/auth.dart';
 import 'package:timer_tracker_flutter_course/services/database.dart';
 
@@ -28,6 +30,19 @@ class JobsPage extends StatelessWidget {
 
     if (didRequestSignOut == true) {
       _signOut(context);
+    }
+  }
+
+  Future<void> _delete(BuildContext context, Job job) async {
+    try {
+      final database = Provider.of<Database>(context, listen: false);
+      await database.deleteJob(job);
+    } on FirebaseException catch (e) {
+      showExceptionAlertDialog(
+        context,
+        title: 'Operation failed',
+        exception: e,
+      );
     }
   }
 
@@ -64,11 +79,19 @@ class JobsPage extends StatelessWidget {
       builder: (context, snapshot) {
         return ListItemsBuilder<Job>(
           snapshot: snapshot,
-          itemBuilder: (context, job) => JobListTile(
-            job: job,
-            onTap: () => EditJobPage.show(
-              context,
+          itemBuilder: (context, job) => Dismissible(
+            key: Key('job-${job.id}'),
+            background: Container(
+              color: Colors.red,
+            ),
+            direction: DismissDirection.endToStart,
+            onDismissed: (direction) => _delete(context, job),
+            child: JobListTile(
               job: job,
+              onTap: () => EditJobPage.show(
+                context,
+                job: job,
+              ),
             ),
           ),
         );
