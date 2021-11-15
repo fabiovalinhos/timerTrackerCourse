@@ -48,12 +48,13 @@ class JobEntriesPage extends StatelessWidget {
         elevation: 2.0,
         title: Text(job.name),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text(
               'Edit',
               style: TextStyle(fontSize: 18.0, color: Colors.white),
             ),
-            onPressed: () => EditJobPage.show(context, job: job),
+            onPressed: () =>
+                EditJobPage.show(context, database: database, job: job),
           ),
         ],
       ),
@@ -70,6 +71,7 @@ class JobEntriesPage extends StatelessWidget {
     return StreamBuilder<List<Entry>>(
       stream: database.entriesStream(job: job),
       builder: (context, snapshot) {
+        // TODO: preciso entender este gerador de listbuilder
         return ListItemsBuilder<Entry>(
           snapshot: snapshot,
           itemBuilder: (context, entry) {
