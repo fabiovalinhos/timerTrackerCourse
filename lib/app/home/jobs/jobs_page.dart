@@ -12,27 +12,6 @@ import 'package:timer_tracker_flutter_course/services/auth.dart';
 import 'package:timer_tracker_flutter_course/services/database.dart';
 
 class JobsPage extends StatelessWidget {
-  Future<void> _signOut(BuildContext context) async {
-    try {
-      final auth = Provider.of<AuthBase>(context, listen: false);
-      await auth.signOut();
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future<void> _confirmSignOut(BuildContext context) async {
-    final didRequestSignOut = await ShowAlertDialog(context,
-        title: 'Logout',
-        content: 'Are you sure that you want to logout?',
-        defaultActionText: 'Logout',
-        cancelActionText: 'Cancel');
-
-    if (didRequestSignOut == true) {
-      _signOut(context);
-    }
-  }
-
   Future<void> _delete(BuildContext context, Job job) async {
     try {
       final database = Provider.of<Database>(context, listen: false);
@@ -60,16 +39,6 @@ class JobsPage extends StatelessWidget {
               database: Provider.of<Database>(context, listen: false),
             ),
           ),
-          TextButton(
-            onPressed: () => _confirmSignOut(context),
-            child: Text(
-              'Logout',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-              ),
-            ),
-          )
         ],
       ),
       body: _buildContent(context),

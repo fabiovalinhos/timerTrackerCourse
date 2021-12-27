@@ -6,22 +6,29 @@ import 'package:timer_tracker_flutter_course/common_widgets/show_exception_alert
 import 'package:timer_tracker_flutter_course/services/database.dart';
 
 class EditJobPage extends StatefulWidget {
-  const EditJobPage({Key key, @required this.database, this.job})
-      : super(key: key);
   final Database database;
   final Job job;
 
+  const EditJobPage({
+    this.job,
+    @required this.database,
+    Key key,
+  }) : super(key: key);
+
   static Future<void> show(BuildContext context,
       {Database database, Job job}) async {
-    await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => EditJobPage(
-            database: database,
-            job: job,
-          ),
-          fullscreenDialog: true,
-        ));
+    await Navigator.of(
+      context,
+      rootNavigator: true,
+    ).push(
+      MaterialPageRoute(
+        builder: (context) => EditJobPage(
+          database: database,
+          job: job,
+        ),
+        fullscreenDialog: true,
+      ),
+    );
   }
 
   @override
