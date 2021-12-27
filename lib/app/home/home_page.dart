@@ -17,13 +17,11 @@ class _HomePageState extends State<HomePage> {
     setState(() => _currentTab = tabItem);
   }
 
-  Map<TabItem, WidgetBuilder> get widgetBuilders {
-    return {
-      TabItem.jobs: (_) => JobsPage(),
-      TabItem.entries: (_) => Container(),
-      TabItem.account: (_) => Container(),
-    };
-  }
+  Map<TabItem, WidgetBuilder> get widgetBuilders => {
+        TabItem.jobs: (_) => JobsPage(),
+        TabItem.entries: (_) => Container(),
+        TabItem.account: (_) => Container(),
+      };
 
   @override
   Widget build(BuildContext context) {
