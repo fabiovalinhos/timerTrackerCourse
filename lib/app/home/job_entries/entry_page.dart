@@ -1,7 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:timer_tracker_flutter_course/app/home/job_entries/format.dart';
 import 'package:timer_tracker_flutter_course/app/home/models/entry.dart';
 import 'package:timer_tracker_flutter_course/app/home/models/job.dart';
