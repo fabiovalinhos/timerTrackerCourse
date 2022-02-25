@@ -82,7 +82,7 @@ class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful> {
 
   List<Widget> _buildChildren() {
     final primaryText = _formType == EmailSignInFormType.signIn
-        ? 'Sign in '
+        ? 'Sign in'
         : 'Create an account';
 
     final secondaryText = _formType == EmailSignInFormType.signIn
@@ -123,6 +123,7 @@ class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful> {
         _submitted && !widget.passwordValidator.isValid(_password);
 
     return TextField(
+      key: Key('password'),
       decoration: InputDecoration(
         labelText: 'Password',
         errorText: showErrorText ? widget.invalidPasswordErrorText : null,
@@ -141,6 +142,7 @@ class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful> {
     bool showErrorText = _submitted && !widget.emailValidator.isValid(_email);
 
     return TextField(
+      key: Key('email'),
       decoration: InputDecoration(
         labelText: 'Email',
         hintText: 'text@text.com',
