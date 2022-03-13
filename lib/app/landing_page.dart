@@ -7,6 +7,10 @@ import 'package:timer_tracker_flutter_course/services/auth.dart';
 import 'package:timer_tracker_flutter_course/services/database.dart';
 
 class LandingPage extends StatelessWidget {
+  const LandingPage({Key key, this.databaseBuilder}) : super(key: key);
+
+  final Database Function(String) databaseBuilder;
+
   @override
   Widget build(BuildContext context) {
     final AuthBase auth = Provider.of<AuthBase>(context, listen: false);
@@ -19,7 +23,8 @@ class LandingPage extends StatelessWidget {
             return SignInPage.create(context);
           }
           return Provider<Database>(
-            create: (_) => FirestoreDatabase(uid: user.uid),
+            // create: (_) => FirestoreDatabase(uid: user.uid),
+            create: (_) => databaseBuilder(user.uid),
             child: HomePage(),
           );
         }
