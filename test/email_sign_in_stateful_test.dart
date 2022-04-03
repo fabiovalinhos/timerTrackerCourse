@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,9 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:timer_tracker_flutter_course/app/sign_in/email_sign_in_form_stateful.dart';
 import 'package:timer_tracker_flutter_course/services/auth.dart';
 
-class MockAuth extends Mock implements AuthBase {}
-
-class MockUser extends Mock implements User {}
+import 'mocks.dart';
 
 void main() {
   MockAuth mockAuth;
